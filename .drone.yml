@@ -15,10 +15,8 @@ steps:
 - name: Docker Image
   image: smasherofallthings/python-fe:latest
   commands:
-  - docker buildx -h
-  - docker version
   - docker buildx use dcontainer
-  - docker buildx build -t smasherofallthings/weather-exporter:latest -t "smasherofallthings/weather-exporter:$$(date '+%Y-%m-%d')-b$${DRONE_BUILD_NUMBER}" --platform=linux/amd64,linux/arm64,linux/arm/v7,darwin . && docker push smasherofallthings/weather-exporter --all-tags
+  - docker buildx build -t smasherofallthings/weather-exporter:latest -t "smasherofallthings/weather-exporter:$$(date '+%Y-%m-%d')-b$${DRONE_BUILD_NUMBER}" --platform=linux/amd64,linux/arm64,linux/arm/v7 . && docker push smasherofallthings/weather-exporter --all-tags
   volumes:
   - name: docker-socket
     path: /var/run/docker.sock
