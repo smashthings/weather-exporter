@@ -23,7 +23,7 @@ steps:
   - name: docker-socket
     path: /var/run/docker.sock
   - name: docker-creds
-    path: /root/.docker/config.json
+    path: /root/.docker/
 
 - name: Push repo to public repos
   image: smasherofallthings/debug
@@ -43,7 +43,7 @@ volumes:
     path: /var/run/docker.sock
 - name: docker-creds
   host:
-    path: /root/.docker/config.json
+    path: /root/.docker/
 - name: ssh-creds
   host:
     path: /root/.ssh/
