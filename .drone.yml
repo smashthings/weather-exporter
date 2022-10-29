@@ -15,9 +15,9 @@ steps:
 - name: Docker Image
   image: smasherofallthings/python-fe:latest
   commands:
-  - docker build -t smasherofallthings/weather-exporter:amd64-latest -f Dockerfile.linuxamd64 .
-  - docker build -t smasherofallthings/weather-exporter:arm7-latest -f Dockerfile.linuxarm7  .
-  - docker manifest create smasherofallthings/weather-exporter:latest --amend smasherofallthings/weather-exporter:amd64-latest --amend smasherofallthings/weather-exporter:amd64-latest
+  - docker build -t weather-exporter:amd64-latest -f Dockerfile.linuxamd64 .
+  - docker build -t weather-exporter:arm7-latest -f Dockerfile.linuxarm7  .
+  - docker manifest create smasherofallthings/weather-exporter:latest --amend weather-exporter:amd64-latest --amend weather-exporter:amd64-latest
   - docker tag "smasherofallthings/weather-exporter:$$(date '+%Y-%m-%d')-b$${DRONE_BUILD_NUMBER}" smasherofallthings/weather-exporter:latest
   - docker push smasherofallthings/weather-exporter:latest --all-tags
   volumes:
