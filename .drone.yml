@@ -12,11 +12,30 @@ steps:
   - GIT_SSL_NO_VERIFY=true git clone -v $DRONE_GIT_HTTP_URL .
   - GIT_SSL_NO_VERIFY=true git checkout $DRONE_COMMIT
 
-- name: Docker Image
+- name: AMD64 Image
   image: smasherofallthings/python-fe:latest
   commands:
-  - docker build -t smasherofallthings/weather-exporter:amd64-latest -t "smasherofallthings/weather-exporter:amd64-$$(date '+%Y-%m-%d')-b$${DRONE_BUILD_NUMBER}" -f Dockerfile.linuxamd64 . && docker push smasherofallthings/weather-exporter:amd64-latest "smasherofallthings/weather-exporter:amd64-$$(date '+%Y-%m-%d')-b$${DRONE_BUILD_NUMBER}"
-  - docker build -t smasherofallthings/weather-exporter:arm7-latest -t "smasherofallthings/weather-exporter:arm7-$$(date '+%Y-%m-%d')-b$${DRONE_BUILD_NUMBER}" -f Dockerfile.linuxarm7 . && docker push --all-tags smasherofallthings/weather-exporter:arm7-latest
+  - docker build -t smasherofallthings/weather-exporter:amd64-latest -t "smasherofallthings/weather-exporter:amd64-$$(date '+%Y-%m-%d')-b$${DRONE_BUILD_NUMBER}" -f Dockerfile.linuxamd64 .
+  volumes:
+  - name: docker-socket
+    path: /var/run/docker.sock
+  - name: docker-creds
+    path: /root/.docker/
+
+- name: ARM7 Image
+  image: smasherofallthings/python-fe:latest
+  commands:
+  - docker build -t smasherofallthings/weather-exporter:arm7-latest -t "smasherofallthings/weather-exporter:arm7-$$(date '+%Y-%m-%d')-b$${DRONE_BUILD_NUMBER}" -f Dockerfile.linuxarm7 .
+  volumes:
+  - name: docker-socket
+    path: /var/run/docker.sock
+  - name: docker-creds
+    path: /root/.docker/
+
+- name: Push Images
+  image: smasherofallthings/python-fe:latest
+  commands:
+  - docker push --all-tags smasherofallthings/weather-exporter
   volumes:
   - name: docker-socket
     path: /var/run/docker.sock
