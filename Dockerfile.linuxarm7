@@ -6,7 +6,7 @@ COPY package.json /app/
 COPY package-lock.json /app/
 
 WORKDIR /app
-RUN npm install
+RUN /usr/local/bin/npm install
 
 CMD ["node", "/app/server.js"]
 
