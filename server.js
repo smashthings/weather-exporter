@@ -55,6 +55,7 @@ function generateMetrics(req, res){
     resultingContent.push(`# HELP ${name} ${description}`, `# TYPE ${name} gauge`, `${name}{interval="1m",from="WeatherExporter"} ${value}`);
   };
 
+  res.set('Content-Type', 'text/plain');
   res.send(resultingContent.join("\n"));
 
 }
